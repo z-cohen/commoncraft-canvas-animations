@@ -2,20 +2,20 @@
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
-function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
+// function debounce(func, wait, immediate) {
+// 	var timeout;
+// 	return function() {
+// 		var context = this, args = arguments;
+// 		var later = function() {
+// 			timeout = null;
+// 			if (!immediate) func.apply(context, args);
+// 		};
+// 		var callNow = immediate && !timeout;
+// 		clearTimeout(timeout);
+// 		timeout = setTimeout(later, wait);
+// 		if (callNow) func.apply(context, args);
+// 	};
+// };
 
 // Square
 // c.fillRect(x, y, width, height);
@@ -94,3 +94,65 @@ function debounce(func, wait, immediate) {
 //     c.stroke();
 //   }
 // }
+//
+// Animating lots of circles
+
+// // Animating many circles
+// function Circle(x, y, vx, vy, radius) {
+//   this.x = x;
+//   this.y = y;
+//   this.vx = vx;
+//   this.vy = vy;
+//   this.radius = radius;
+
+//   this.draw = () => {
+//     c.beginPath();
+//     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+//     c.strokeStyle = "#0000ff";
+
+//     c.stroke();
+//   }
+
+//   this.update = () => {
+//     if (this.x + this.radius > ww || this.x - this.radius < 0) {
+//       this.vx = -this.vx;
+//     }
+//     if (this.y + this.radius > wh || this.y - this.radius < 0) {
+//       this.vy = -this.vy;
+//     }
+//     this.x += this.vx;
+//     this.y += this.vy;
+//   }
+
+//   this.render = () => {
+//     this.update();
+//     this.draw();
+//   }
+// }
+
+// let circleArray = [];
+// const circleTotal = 150;
+
+// for (let i = 0; i < circleTotal; i++) {
+//   const radius = 30;
+//   let circleX = Math.random() * (ww - radius * 2) + radius;
+//   let circleY = Math.random() * (wh - radius * 2) + radius;
+//   // X velocity
+//   let vx = (Math.random() - 0.5) * 20;
+//   // Y velocity
+//   let vy = (Math.random() - 0.5) * 20;
+//   circleArray.push(new Circle(circleX, circleY, vx, vy, radius));
+// }
+
+// console.log(circleArray);
+
+// function animate() {
+//   requestAnimationFrame(animate);
+//   c.clearRect(0, 0, ww, wh);
+
+//   for (let i = 0; i < circleArray.length; i++) {
+//     circleArray[i].render();
+//   }
+// }
+
+// animate();

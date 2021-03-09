@@ -16,7 +16,7 @@ function Particle(x,y){
   // Start it randomly on the canvas
   this.x =  Math.random()*ww;
   this.y =  Math.random()*wh;
-  // Start it where it will end (tho they explode outward for some reason
+  // Start it where it will end (tho they explode outward for some reason)
   // this.x =  x;
   // this.y =  y;
   this.dest = {
@@ -26,8 +26,11 @@ function Particle(x,y){
   // Random radius between ~0 and 2
   this.r =  Math.random()*5 + 2;
   // Random velocity between ~-20 and 20
-  this.vx = (Math.random()-0.5)*20;
-  this.vy = (Math.random()-0.5)*20;
+  // this.vx = (Math.random()-0.5)*20;
+  // this.vy = (Math.random()-0.5)*20;
+  // Start with zero velocity and they'll be static when painted
+  this.vx = 0;
+  this.vy = 0;
   // Acceleration & friction
   this.accX = 0;
   this.accY = 0;
@@ -69,7 +72,7 @@ function Particle(x,y){
     var distance = Math.hypot(a, b);
     const radiusMultiplier = 50;
     // Smaller numbers move faster
-    const relativeSpeed = radiusMultiplier * 1;
+    const relativeSpeed = radiusMultiplier * .75;
     // If the distance from the mouse to here is smaller than the radius, move it away
     if (distance < (radius * radiusMultiplier)){
       // If dot is at 50, 50 and mouse is at 70, 70
