@@ -1,0 +1,35 @@
+<head>
+  <style type="text/css">
+    body { background: #ccc;}
+    canvas {
+      box-sizing: border-box;
+      display: inline-block;
+      background: white;
+    }
+
+    .data {
+      display: inline-block;
+      width: 200px;
+      height: 500px;
+      background: green;
+    }
+  </style>
+<body>
+  <div id="guide"></div>
+  <div class="data">
+    <h1>Draw a triangle</h1>
+    <h4 id="sideType"></h4>
+    <h4 id="angType"></h4>
+    <h4 id="special"></h4>
+    <p>Lines:</p>
+    <ul id="lines"></ul>
+    <p>Angles:</p>
+    <ul id="angles"></ul>
+    <br>
+    <p id="area"></p>
+    
+    <input type="button" value="reset" onclick="reset()">
+  </div>
+  <canvas width="500" height="300"></canvas>
+  <script src="drawTriangle.js"></script>
+</body>
