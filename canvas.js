@@ -15,7 +15,7 @@ const triangleLength = 15;
 const triangleFill = "#f9f9f9";
 
 // Minimum angle we want any of the triangles to have
-const minAngle = 30;
+const minAngle = 25;
 
 // How large a radius to detect mouse movements
 const movementRadius = 65;
