@@ -59,15 +59,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-function getRandomIntExcluding(min, max) {
-}
-
-function closeDistance(x) {
-  const min = -2;
-  const max = 2;
-  return x >= min && x <= max;
-}
-
 // These 2 functions from this pen:
 // https://codepen.io/testing3912/pen/xOpajQ?editors=1111
 //
@@ -229,6 +220,7 @@ function initScene() {
 
   clearScene();
 
+  // Draw triangles on a grid
   trianglesArray = [];
   totalTriangleCalculations = 0;
 
@@ -254,7 +246,7 @@ function initScene() {
     }
   }
 
-  // Randomized dots
+  // Draw randomized dots
   dotsArray = [];
   c.fillStyle = "#000";
   const totalDots = calculateDots(ww, wh);
