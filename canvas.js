@@ -9,6 +9,7 @@ const mouse = {
 };
 
 // How many grid columns & rows to have
+// This could be made responsive based on window size.
 const gridLength = 13;
 
 // Max length of each triangle's sides
@@ -20,21 +21,18 @@ const triangleFill = "#f9f9f9";
 // Minimum angle we want any of the triangles to have
 const minAngle = 30;
 
-// A multiplier used for radius and relative speed
-const radiusMultiplier = 5;
-
 // How large a radius to detect mouse movements
-const movementRadius = triangleLength * radiusMultiplier;
+const movementRadius = 70;
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
-const relativeSpeed = radiusMultiplier * 10;
+const relativeSpeed = 60;
 
 // Original friction calculation
 // const friction = Math.random()*0.05 + 0.94;
 // The smaller the final number, the slower they'll fly away
 // Do one with .4 and one with .9
-const friction = Math.random()*0.05 + 0.9;
+const friction = Math.random()*0.05 + 0.91;
 
 // Total number of dots on the page
 const totalDots = 4000;
