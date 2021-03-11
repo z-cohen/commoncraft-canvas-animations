@@ -8,10 +8,6 @@ const mouse = {
   y: 0
 };
 
-// How many grid columns & rows to have
-// This could be made responsive based on window size.
-const gridLength = 13;
-
 // Max length of each triangle's sides
 const triangleLength = 15;
 
@@ -36,8 +32,25 @@ const relativeSpeed = 60;
 // might look 'robotic', but with all the moving pieces it works alright.
 const friction = canvas.getAttribute('friction') || 0.93;
 
+// How many triangle grid columns & rows to have
+const getGridDimensions = (ww, wh) => {
+  // Eg. each column/row will be 100px wide & tall
+  const gridCellSize = 100;
+
+  const gridColumns = ww / gridCellSize;
+  const gridRows = wh / gridCellSize;
+
+  return {
+    gridColumns: gridColumns,
+    gridRows: gridRows,
+  }
+};
+
 // Total number of dots on the page
-const totalDots = 4000;
+// This results in ~4000 dots for a 1400x900 window
+const calculateDots = (ww, wh) => {
+  return (ww * wh) / 300
+};
 
 // c = context
 const c = canvas.getContext('2d');
@@ -76,9 +89,12 @@ function calcAngles(x, y, x2, y2, x3, y3) {
 
 c.strokeStyle = "#009999"; // Nice green color
 
-let triangleCalculations = 0;
+// This is just to track how many extra calculations we're doing to
+// get nicely-shaped triangles
+let totalTriangleCalculations = 0;
+
 function generatePoints(x, y) {
-  triangleCalculations++;
+  totalTriangleCalculations++;
   const px = x;
   const py = y;
   const px2 = x + getRandomInt(-triangleLength, triangleLength);
@@ -214,19 +230,22 @@ function initScene() {
   clearScene();
 
   trianglesArray = [];
-  triangleCalculations = 0;
-  for (let i = 0; i < gridLength; i++) {
-    for (let j = 0; j < gridLength; j++) {
+  totalTriangleCalculations = 0;
+
+  const { gridColumns, gridRows } = getGridDimensions(ww, wh);
+
+  for (let i = 0; i < gridColumns; i++) {
+    for (let j = 0; j < gridRows; j++) {
       // If we want it to be truly random, we can use this
       // But I think mine looks better, it's more evenly spaced
       // const radius = triangleLength;
       // let x = Math.random() * (ww - radius * 2) + radius;
       // let y = Math.random() * (wh - radius * 2) + radius;
 
-      const minX = i * (ww/gridLength);
-      const maxX = (i + 1) * (ww/gridLength);
-      const minY = j * (wh/gridLength);
-      const maxY = (j + 1) * (wh/gridLength);
+      const minX = i * (ww/gridColumns);
+      const maxX = (i + 1) * (ww/gridColumns);
+      const minY = j * (wh/gridRows);
+      const maxY = (j + 1) * (wh/gridRows);
 
       const x = getRandomInt(minX, maxX);
       const y = getRandomInt(minY, maxY);
@@ -238,6 +257,7 @@ function initScene() {
   // Randomized dots
   dotsArray = [];
   c.fillStyle = "#000";
+  const totalDots = calculateDots(ww, wh);
   // TODO: Make more efficient using this: https://hacks.mozilla.org/2009/06/pushing-pixels-with-canvas/
   for (let i = 0; i < totalDots; i++) {
     const x = Math.random() * ww;
@@ -250,7 +270,7 @@ function initScene() {
   // console.log(dotsArray);
 
   console.log('Total number of triangles', trianglesArray.length);
-  console.log('Total times calculated to get correct triangle angles', triangleCalculations);
+  console.log('Total times calculated to get correct triangle angles', totalTriangleCalculations);
 }
 
 function render() {
