@@ -22,7 +22,7 @@ const triangleFill = "#f9f9f9";
 const minAngle = 30;
 
 // How large a radius to detect mouse movements
-const movementRadius = 70;
+const movementRadius = 65;
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
@@ -31,8 +31,10 @@ const relativeSpeed = 60;
 // Original friction calculation
 // const friction = Math.random()*0.05 + 0.94;
 // The smaller the final number, the slower they'll fly away
-// Do one with .4 and one with .9
-const friction = Math.random()*0.05 + 0.91;
+// const friction = Math.random()*0.05 + 0.91;
+// Instead, we can use a plain number. If the effect were more obvious, this
+// might look 'robotic', but with all the moving pieces it works alright.
+const friction = canvas.getAttribute('friction') || 0.93;
 
 // Total number of dots on the page
 const totalDots = 4000;
