@@ -21,7 +21,7 @@ const triangleFill = "#f9f9f9";
 const minAngle = 30;
 
 // A multiplier used for radius and relative speed
-const radiusMultiplier = 6;
+const radiusMultiplier = 5;
 
 // How large a radius to detect mouse movements
 const movementRadius = triangleLength * radiusMultiplier;
@@ -33,7 +33,8 @@ const relativeSpeed = radiusMultiplier * 10;
 // Original friction calculation
 // const friction = Math.random()*0.05 + 0.94;
 // The smaller the final number, the slower they'll fly away
-const friction = Math.random()*0.05 + 0.92;
+// Do one with .4 and one with .9
+const friction = Math.random()*0.05 + 0.9;
 
 // Total number of dots on the page
 const totalDots = 4000;
