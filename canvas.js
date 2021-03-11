@@ -78,8 +78,6 @@ function calcAngles(x, y, x2, y2, x3, y3) {
   return {a: angA, b: angB, c: angC}
 }
 
-c.strokeStyle = "#009999"; // Nice green color
-
 // This is just to track how many extra calculations we're doing to
 // get nicely-shaped triangles
 let totalTriangleCalculations = 0;
@@ -223,6 +221,8 @@ function initScene() {
   // Draw triangles on a grid
   trianglesArray = [];
   totalTriangleCalculations = 0;
+
+  // c.strokeStyle = "#009999"; // Nice green color
 
   const { gridColumns, gridRows } = getGridDimensions(ww, wh);
 
