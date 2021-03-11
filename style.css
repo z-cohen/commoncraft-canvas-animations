@@ -1,0 +1,27 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica', 'Arial', sans;
+}
+
+h1 {
+  font-weight: bold;
+  margin: 1rem;
+}
+
+a, a:visited, a:active {
+  color: #000;
+  margin: 1rem;
+}
+
+h1, a {
+  position: relative;
+  z-index: 1;
+}
+
+canvas {
+  background-color: #f9f9f9;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
