@@ -1,7 +1,10 @@
 const canvas = document.querySelector('canvas');
 
-let ww = canvas.width = window.innerWidth;
-let wh = canvas.height = window.innerHeight;
+// c = context
+const c = canvas.getContext('2d');
+
+// Detect retina screens and resize to fix correctly
+var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
 
 const mouse = {
   x: 0,
@@ -32,6 +35,25 @@ const relativeSpeed = 60;
 // might look 'robotic', but with all the moving pieces it works alright.
 const friction = canvas.getAttribute('friction') || 0.93;
 
+// Window widths and height, but scaled for the device pixel ratio
+let ww;
+let wh;
+
+// Run this on scene init and on window resize
+const calculateCanvasSize = () => {
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+
+  ww = canvas.width = Math.floor(windowWidth * scale);
+  wh = canvas.height = Math.floor(windowHeight * scale);
+
+  canvas.style.width = windowWidth + "px";
+  canvas.style.height = windowHeight + "pk";
+
+  c.scale(scale, scale);
+  // console.log('Canvas size etc', ww, wh, scale);
+};
+
 // How many triangle grid columns & rows to have
 const getGridDimensions = (ww, wh) => {
   // Eg. each column/row will be 100px wide & tall
@@ -51,9 +73,6 @@ const getGridDimensions = (ww, wh) => {
 const calculateDots = (ww, wh) => {
   return (ww * wh) / 300
 };
-
-// c = context
-const c = canvas.getContext('2d');
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -213,9 +232,7 @@ function clearScene() {
 
 // Draw initial triangles and dots on the page
 function initScene() {
-  ww = canvas.width = window.innerWidth;
-  wh = canvas.height = window.innerHeight;
-
+  calculateCanvasSize();
   clearScene();
 
   // Draw triangles on a grid
@@ -293,8 +310,8 @@ function onTouchMove(e){
 }
 
 function onTouchEnd(e){
-mouse.x = -9999;
-mouse.y = -9999;
+  mouse.x = -9999;
+  mouse.y = -9999;
 }
 
 window.addEventListener("mousemove", onMouseMove);
