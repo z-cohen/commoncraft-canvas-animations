@@ -1,0 +1,20 @@
+<script>
+  $(document).ready(function() {
+    $(".bio-more---js").on("click", (e) => {
+      const $this = $(e.target);
+      $this.siblings(".bio-less---js").show();
+      $this.hide();
+      $this.parent(".more-less-container---js").siblings(".bio-text-container---js").show();
+      const $bioContainerSibling = $this.parents(".bio-container").siblings(".bio-container");
+      $bioContainerSibling.find(".bio-text-container---js").hide();
+      $bioContainerSibling.find(".bio-less---js").hide();
+      $bioContainerSibling.find(".bio-more---js").show();
+    })
+    $(".bio-less---js").on("click", (e) => {
+      const $this = $(e.target);
+      $this.siblings(".bio-more---js").show();
+      $this.hide();
+      $this.parent(".more-less-container---js").siblings(".bio-text-container---js").hide();
+    })
+  });
+</script>
