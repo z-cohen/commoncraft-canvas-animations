@@ -12,13 +12,23 @@ const mouse = {
 };
 
 // Max length of each triangle's sides
-const triangleLength = 15;
+const triangleLength = 13;
+
+// Triangle border color
+// #9aab91
+const triangleStrokeColor = "#9aab91";
+
+// Triangle stroke width
+const triangleLineWidth = 2;
 
 // Opaque fill in triangle to match the page background
 const triangleFill = "#f9f9f9";
 
 // Minimum angle we want any of the triangles to have
-const minAngle = 25;
+const minAngle = 35;
+
+// Eg. each column/row will be 100px wide & tall
+const gridCellSize = 90;
 
 // How large a radius to detect mouse movements
 const movementRadius = 65;
@@ -35,7 +45,14 @@ const relativeSpeed = 60;
 // might look 'robotic', but with all the moving pieces it works alright.
 const friction = canvas.getAttribute('friction') || 0.93;
 
-// Window widths and height, but scaled for the device pixel ratio
+// Dividing the screen area by 300 results in ~4000 dots for a 1400x900 window
+// Higher numbers mean fewer dots
+const dotMultiplier = 500;
+
+// Dot color
+const dotFill = "#999";
+
+// Window widths and height, but eventually scaled for the device pixel ratio
 let ww;
 let wh;
 
@@ -56,9 +73,6 @@ const calculateCanvasSize = () => {
 
 // How many triangle grid columns & rows to have
 const getGridDimensions = (ww, wh) => {
-  // Eg. each column/row will be 100px wide & tall
-  const gridCellSize = 100;
-
   const gridColumns = ww / gridCellSize;
   const gridRows = wh / gridCellSize;
 
@@ -69,9 +83,8 @@ const getGridDimensions = (ww, wh) => {
 };
 
 // Total number of dots on the page
-// This results in ~4000 dots for a 1400x900 window
 const calculateDots = (ww, wh) => {
-  return (ww * wh) / 300
+  return (ww * wh) / dotMultiplier;
 };
 
 function getRandomInt(min, max) {
@@ -157,9 +170,10 @@ function Triangle(x, y) {
     c.moveTo(this.points.x, this.points.y);
     c.lineTo(this.points.x2, this.points.y2);
     c.lineTo(this.points.x3, this.points.y3);
+    // For thicker lines, this is where we'd need to change the end point
+    // so they fully 'line up'
     c.lineTo(this.points.x, this.points.y);
     c.stroke();
-    c.fillStyle = triangleFill;
     c.fill();
     c.closePath();
 
@@ -203,7 +217,6 @@ function Dot(x, y) {
 
     c.beginPath();
     c.fillRect(this.x, this.y, 1, 1);
-    c.fillStyle = "#000";
     c.closePath();
 
     const a = this.x - mouse.x;
@@ -238,8 +251,6 @@ function initScene() {
   // Draw triangles on a grid
   trianglesArray = [];
   totalTriangleCalculations = 0;
-
-  // c.strokeStyle = "#009999"; // Nice green color
 
   const { gridColumns, gridRows } = getGridDimensions(ww, wh);
 
@@ -286,10 +297,17 @@ function render() {
   requestAnimationFrame(render);
   clearScene();
 
+  c.fillStyle = dotFill;
+
   // Drawing dots first puts them 'below' the triangles
   for (let j = 0; j < dotsArray.length; j++) {
     dotsArray[j].render();
   }
+
+  c.strokeStyle = triangleStrokeColor;
+  c.lineWidth = triangleLineWidth;
+  c.fillStyle = triangleFill;
+
   for (let i = 0; i < trianglesArray.length; i++) {
     trianglesArray[i].render();
   }
