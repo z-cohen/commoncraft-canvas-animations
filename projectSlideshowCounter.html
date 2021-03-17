@@ -1,0 +1,26 @@
+<!-- ## slider counter 1 of total ## -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/attrchange/2.0.1/attrchange.min.js"></script>
+<script>
+  $(document).ready(function() {
+    /* 1.1. get the number of slides */
+    var numItems = $(".w-slider-dot").length;
+    var total = document.getElementsByClassName("slide-counter---total-slides")[0];
+    total.innerHTML = numItems;
+    /* 1.2. set the index value before slide changed */
+    var myIndex = $(".w-slider-dot.w-active").index();
+    var counter =  document.getElementsByClassName("slide-counter---current-slide")[0];
+    counter.innerHTML = myIndex + 1;
+    /* 1.3. show the counter now that we've calculated */
+    var slideCounter = document.getElementsByClassName("slide-counter")[0];
+    slideCounter.style.display = 'flex';
+
+    /* 2.2. change the index dynamically */
+    $(".w-slide").attrchange({
+      trackValues: true,
+      callback: function(event) {
+        myIndex = $(".w-slider-dot.w-active").index();
+        counter.innerHTML = myIndex + 1;
+      }
+    });
+  });
+</script>
