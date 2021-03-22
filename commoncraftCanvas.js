@@ -1,6 +1,7 @@
-const canvas = document.querySelector('canvas');
+/* SETUP */
+/* ------------------------------------*/
 
-// c = context
+const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
 // Detect retina screens and resize to fix correctly
@@ -11,31 +12,50 @@ const mouse = {
   y: 0
 };
 
+/* MOBILE BREAKPOINT */
+/* ------------------------------------*/
+
+const mobileBreakpoint = 600;
+
+// Note: Mobile sizes will be switched out accordingly when drawing the canvas
+
+/* TRIANGLE SETTINGS */
+/* ------------------------------------*/
+
 // Max length of each triangle's sides
-const triangleLength = 13;
+let triangleLength;
+const largeScreenTriangleLength = 10;
+const mobileTriangleLength = canvas.getAttribute('mobileTriangleLength') || 7;
 
 // Triangle border color
 // #9aab91
-const triangleStrokeColor = "#9aab91";
+const triangleStrokeColor = "#83C382";
 
 // Triangle stroke width
-const triangleLineWidth = 2;
+const triangleLineWidth = 3;
 
 // Opaque fill in triangle to match the page background
-const triangleFill = "#f9f9f9";
+const triangleFill = "#fff";
 
 // Minimum angle we want any of the triangles to have
 const minAngle = 35;
 
-// Eg. each column/row will be 100px wide & tall
-const gridCellSize = 90;
+/* GRID AND MOVEMENT SETTINGS */
+/* ------------------------------------*/
+
+// Eg. each column/row will be 90px wide & tall
+let gridCellSize;
+const largeScreenGridCellSize = 80;
+const mobileGridCellSize = canvas.getAttribute('mobileGridSize') || 50;
 
 // How large a radius to detect mouse movements
-const movementRadius = 65;
+let movementRadius;
+const largeScreenMovementRadius = 30;
+const mobileMovementRadius = 22; // 44px diameter
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
-const relativeSpeed = 60;
+const relativeSpeed = 15;
 
 // Original friction calculation
 // const friction = Math.random()*0.05 + 0.94;
@@ -43,23 +63,36 @@ const relativeSpeed = 60;
 // const friction = Math.random()*0.05 + 0.91;
 // Instead, we can use a plain number. If the effect were more obvious, this
 // might look 'robotic', but with all the moving pieces it works alright.
-const friction = canvas.getAttribute('friction') || 0.93;
+const friction = canvas.getAttribute('friction') || 0.84;
+
+/* DOT SETTINGS */
+/* ------------------------------------*/
 
 // Dividing the screen area by 300 results in ~4000 dots for a 1400x900 window
 // Higher numbers mean fewer dots
-const dotMultiplier = 500;
+const dotMultiplier = 600;
 
 // Dot color
-const dotFill = "#999";
+const dotFill = "#83C382";
 
-// Window widths and height, but eventually scaled for the device pixel ratio
+// Dot line 'width'
+// We're making small lines with rounded corners and borders, so this really just
+// controls how large the dots look on the screen
+// This doesn't have to be an integer (e.g. can be 1.5)
+const dotLineWidth = canvas.getAttribute('dotLineWidth') || 2;
+
+// Actual window widths and height, but eventually scaled for the device pixel ratio
+let windowWidth;
+let windowHeight;
+
+// Scaled canvas size for retina screens
 let ww;
 let wh;
 
 // Run this on scene init and on window resize
 const calculateCanvasSize = () => {
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
+  windowWidth = window.innerWidth;
+  windowHeight = window.innerHeight;
 
   ww = canvas.width = Math.floor(windowWidth * scale);
   wh = canvas.height = Math.floor(windowHeight * scale);
@@ -116,6 +149,7 @@ let totalTriangleCalculations = 0;
 
 function generatePoints(x, y) {
   totalTriangleCalculations++;
+
   const px = x;
   const py = y;
   const px2 = x + getRandomInt(-triangleLength, triangleLength);
@@ -216,7 +250,15 @@ function Dot(x, y) {
     this.y +=  this.vy;
 
     c.beginPath();
-    c.fillRect(this.x, this.y, 1, 1);
+
+    // New method: Drawing a single-point "line" to make circles
+    // More performant than drawing arcs
+    c.moveTo(this.x, this.y);
+    c.lineTo(this.x, this.y);
+    c.stroke();
+
+    // Old method: Draw rectangles, but can't control dot size well
+    // c.fillRect(this.x, this.y, 2, 2);
     c.closePath();
 
     const a = this.x - mouse.x;
@@ -248,6 +290,16 @@ function initScene() {
   calculateCanvasSize();
   clearScene();
 
+  if (windowWidth < mobileBreakpoint) {
+    triangleLength = mobileTriangleLength;
+    gridCellSize = mobileGridCellSize;
+    movementRadius = mobileMovementRadius;
+  } else {
+    triangleLength = largeScreenTriangleLength;
+    gridCellSize = largeScreenGridCellSize;
+    movementRadius = largeScreenMovementRadius;
+  }
+
   // Draw triangles on a grid
   trianglesArray = [];
   totalTriangleCalculations = 0;
@@ -262,10 +314,18 @@ function initScene() {
       // let x = Math.random() * (ww - radius * 2) + radius;
       // let y = Math.random() * (wh - radius * 2) + radius;
 
-      const minX = i * (ww/gridColumns);
-      const maxX = (i + 1) * (ww/gridColumns);
-      const minY = j * (wh/gridRows);
-      const maxY = (j + 1) * (wh/gridRows);
+      // Randomize the position anywhere within the grid square
+      // const minX = i * (ww/gridColumns);
+      // const maxX = (i + 1) * (ww/gridColumns);
+      // const minY = j * (wh/gridRows);
+      // const maxY = (j + 1) * (wh/gridRows);
+
+      // Randomize the position somewhere near the center of the grid square
+      const reducedRandomness = gridCellSize/6;
+      const minX = (i * (ww/gridColumns)) + reducedRandomness;
+      const maxX = ((i + 1) * (ww/gridColumns)) - reducedRandomness;
+      const minY = (j * (wh/gridRows)) + reducedRandomness;
+      const maxY = ((j + 1) * (wh/gridRows)) - reducedRandomness;
 
       const x = getRandomInt(minX, maxX);
       const y = getRandomInt(minY, maxY);
@@ -299,6 +359,9 @@ function render() {
 
   c.fillStyle = dotFill;
 
+  c.lineWidth = dotLineWidth;
+  c.lineCap = 'round';
+
   // Drawing dots first puts them 'below' the triangles
   for (let j = 0; j < dotsArray.length; j++) {
     dotsArray[j].render();
@@ -307,6 +370,7 @@ function render() {
   c.strokeStyle = triangleStrokeColor;
   c.lineWidth = triangleLineWidth;
   c.fillStyle = triangleFill;
+  c.lineCap = 'square';
 
   for (let i = 0; i < trianglesArray.length; i++) {
     trianglesArray[i].render();
