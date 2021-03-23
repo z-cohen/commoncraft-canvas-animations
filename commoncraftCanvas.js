@@ -23,9 +23,9 @@ const mobileBreakpoint = 600;
 /* ------------------------------------*/
 
 // Max length of each triangle's sides
-let triangleLength;
-const largeScreenTriangleLength = canvas.getAttribute('largeScreenTriangleLength') || 9;
-const mobileTriangleLength = canvas.getAttribute('mobileTriangleLength') || 7;
+let triangleSegmentLength;
+const largeScreenTriangleSegmentLength = canvas.getAttribute('largeScreenTriangleSegmentLength') || 9;
+const mobileTriangleSegmentLength = canvas.getAttribute('mobileTriangleSegmentLength') || 6;
 
 // Triangle border color
 // #9aab91
@@ -35,7 +35,7 @@ const triangleStrokeColor = canvas.getAttribute('strokeColor') || "#83C382";
 const triangleLineWidth = canvas.getAttribute('triangleLineWidth') || 3;
 
 // Opaque fill in triangle to match the page background
-const triangleFill = canvas.getAttribute('backgroundColor') || "#fff";
+const triangleFill = canvas.getAttribute('triangleFillColor') || "#fff";
 
 // Minimum angle we want any of the triangles to have
 const minAngle = 35;
@@ -156,11 +156,11 @@ function generatePoints(x, y) {
 
   const px = x;
   const py = y;
-  const px2 = x + getRandomInt(-triangleLength, triangleLength);
-  const py2 = y + getRandomInt(-triangleLength, triangleLength);
+  const px2 = x + getRandomInt(-triangleSegmentLength, triangleSegmentLength);
+  const py2 = y + getRandomInt(-triangleSegmentLength, triangleSegmentLength);
 
-  const px3 = x + getRandomInt(-triangleLength, triangleLength);
-  const py3 = y + getRandomInt(-triangleLength, triangleLength);
+  const px3 = x + getRandomInt(-triangleSegmentLength, triangleSegmentLength);
+  const py3 = y + getRandomInt(-triangleSegmentLength, triangleSegmentLength);
 
   // Check points to make sure they're not too pointy
   // Rerun the calculation if they are
@@ -298,12 +298,12 @@ function initScene() {
   clearScene();
 
   if (windowWidth < mobileBreakpoint) {
-    triangleLength = mobileTriangleLength;
+    triangleSegmentLength = mobileTriangleSegmentLength;
     gridCellSize = mobileGridCellSize;
     movementRadius = mobileMovementRadius;
     dotLineWidth = largeScreenDotLineWidth / 2;
   } else {
-    triangleLength = largeScreenTriangleLength;
+    triangleSegmentLength = largeScreenTriangleSegmentLength;
     gridCellSize = largeScreenGridCellSize;
     movementRadius = largeScreenMovementRadius;
     dotLineWidth = largeScreenDotLineWidth;
@@ -319,7 +319,7 @@ function initScene() {
     for (let j = 0; j < gridRows; j++) {
       // If we want it to be truly random, we can use this
       // But I think mine looks better, it's more evenly spaced
-      // const radius = triangleLength;
+      // const radius = triangleSegmentLength;
       // let x = Math.random() * (ww - radius * 2) + radius;
       // let y = Math.random() * (wh - radius * 2) + radius;
 
