@@ -43,7 +43,7 @@ const minAngle = 35;
 /* GRID AND MOVEMENT SETTINGS */
 /* ------------------------------------*/
 
-// Eg. each column/row will be 90px wide & tall
+// Eg. each column/row will be 75px wide & tall
 let gridCellSize;
 const largeScreenGridCellSize = 75;
 const mobileGridCellSize = canvas.getAttribute('mobileGridCellSize') || 55;
@@ -55,14 +55,12 @@ const mobileMovementRadius = 23; // ~44px diameter
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
+// Recommended: Trying between ~10 and ~100
 const relativeSpeed = 13;
 
 // Original friction calculation
-// const friction = Math.random()*0.05 + 0.94;
 // The smaller the final number, the slower they'll fly away
-// const friction = Math.random()*0.05 + 0.91;
-// Instead, we can use a plain number. If the effect were more obvious, this
-// might look 'robotic', but with all the moving pieces it works alright.
+// 'Real' friction is approximately 0.94
 const friction = canvas.getAttribute('friction') || 0.84;
 
 /* DOT SETTINGS */
@@ -70,7 +68,7 @@ const friction = canvas.getAttribute('friction') || 0.84;
 
 // Dividing the screen area by 300 results in ~4000 dots for a 1400x900 window
 // Higher numbers mean fewer dots
-const dotMultiplier = canvas.getAttribute('dotMultiplier') || 600;
+const dotDivider = canvas.getAttribute('dotDivider') || 600;
 
 // Dot color
 const dotFill = "#83C382";
@@ -79,8 +77,13 @@ const dotFill = "#83C382";
 // We're making small lines with rounded corners and borders, so this really just
 // controls how large the dots look on the screen
 // This doesn't have to be an integer (e.g. can be 1.5)
+// We divide this width on narrow screens in order to have a better density relationship
+// between dots and triangles
 let dotLineWidth;
 const largeScreenDotLineWidth = parseFloat(canvas.getAttribute('dotLineWidth')) || 1;
+
+/* THE CODE */
+/* ------------------------------------*/
 
 // Actual window widths and height, but eventually scaled for the device pixel ratio
 let windowWidth;
@@ -118,7 +121,7 @@ const getGridDimensions = (ww, wh) => {
 
 // Total number of dots on the page
 const calculateDots = (ww, wh) => {
-  return (ww * wh) / dotMultiplier;
+  return (ww * wh) / dotDivider;
 };
 
 function getRandomInt(min, max) {
