@@ -30,6 +30,6 @@ Attribute | Description | Default
 `largeScreenMovementRadius` | How large a radius to detect mouse movements <br/>- On large screens | `30`
 `mobileMovementRadius` | How large a radius to detect mouse movements <br/>- On mobile | `23`
 `relativeSpeed` | How quickly the objects should move away from the mouse <br/>- Smaller numbers move faster <br/>- Recommended: trying between ~10 and ~100 | `13`
-`friction` | How much friction there should be. <br/>- The smaller the number, the slower they'll fly away. 'Real' friction is approximately `0.94` | `0.84`
-`dotDivider` | Dividing the given screen area (whatever size) to determine how many dots there should be. <br/>- Higher numbers mean fewer dots. Recommended: trying between 100 and 1000 | `600`
+`friction` | How much friction there should be. <br/>- The smaller the number, the slower they'll fly away. <br/>- 'Real' friction is approximately `0.94` | `0.84`
+`dotDivider` | Dividing the given screen area (whatever size) to determine how many dots there should be. This ensures that no matter the screen area, the density stays the same. <br/>- Higher numbers mean fewer dots. <br/>- Recommended: trying between 100 and 1000 | `600`
 `largeScreenDotLineWidth` | How large the dots should be. We automatically divide this by 2 on small screens to make the dots feel the same weight as on large screens | `1`
