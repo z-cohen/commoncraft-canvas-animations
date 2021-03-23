@@ -13,8 +13,12 @@ h1 {
   margin: 1rem;
 }
 
+p {
+  color: #999;
+}
+
 a, a:visited, a:active {
-  color: #000;
+  color: #333;
   margin: 1rem;
 }
 

@@ -24,7 +24,7 @@ const mobileBreakpoint = 600;
 
 // Max length of each triangle's sides
 let triangleLength;
-const largeScreenTriangleLength = 10;
+const largeScreenTriangleLength = 9;
 const mobileTriangleLength = canvas.getAttribute('mobileTriangleLength') || 7;
 
 // Triangle border color
@@ -45,13 +45,13 @@ const minAngle = 35;
 
 // Eg. each column/row will be 90px wide & tall
 let gridCellSize;
-const largeScreenGridCellSize = 80;
-const mobileGridCellSize = canvas.getAttribute('mobileGridSize') || 50;
+const largeScreenGridCellSize = 75;
+const mobileGridCellSize = canvas.getAttribute('mobileGridCellSize') || 55;
 
 // How large a radius to detect mouse movements
 let movementRadius;
 const largeScreenMovementRadius = 30;
-const mobileMovementRadius = 25; // ~44px diameter
+const mobileMovementRadius = 23; // ~44px diameter
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
@@ -70,7 +70,7 @@ const friction = canvas.getAttribute('friction') || 0.84;
 
 // Dividing the screen area by 300 results in ~4000 dots for a 1400x900 window
 // Higher numbers mean fewer dots
-const dotMultiplier = 600;
+const dotMultiplier = canvas.getAttribute('dotMultiplier') || 600;
 
 // Dot color
 const dotFill = "#83C382";
@@ -79,7 +79,7 @@ const dotFill = "#83C382";
 // We're making small lines with rounded corners and borders, so this really just
 // controls how large the dots look on the screen
 // This doesn't have to be an integer (e.g. can be 1.5)
-const dotLineWidth = canvas.getAttribute('dotLineWidth') || 1;
+const dotLineWidth = canvas.getAttribute('dotLineWidth') || .5;
 
 // Actual window widths and height, but eventually scaled for the device pixel ratio
 let windowWidth;
