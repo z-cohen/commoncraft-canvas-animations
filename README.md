@@ -5,12 +5,21 @@
 - `webflowCode/` contains an archive of custom Javascript written for the Webflow project
 - A few other files show tests, examples, and tutorial Canvas code
 
-### Using canvas custom attributes
+### Using the canvas
+
+- You can apply this to any canvas element as long as it has the `id="commoncraftCanvas"`, for example:
+
+```
+<canvas id="commoncraftCanvas"></canvas>
+<script src="https://singleportrait.github.io/commoncraft-canvas-animations/commoncraftCanvas.js"></script>
+```
+
+### Using the canvas custom attributes
 
 - Add attributes to the canvas tag to override the defaults.
 
 ```
-<canvas id="canvas" mobileTriangleLength="4" mobileGridCellSize="40" dotDivider="300"></canvas>
+<canvas id="commoncraftCanvas" mobileTriangleLength="4" mobileGridCellSize="40" dotDivider="300"></canvas>
 ```
 
 - The formatting always looks like: ` variableName="value"`
