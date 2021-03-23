@@ -24,18 +24,18 @@ const mobileBreakpoint = 600;
 
 // Max length of each triangle's sides
 let triangleLength;
-const largeScreenTriangleLength = 9;
+const largeScreenTriangleLength = canvas.getAttribute('largeScreenTriangleLength') || 9;
 const mobileTriangleLength = canvas.getAttribute('mobileTriangleLength') || 7;
 
 // Triangle border color
 // #9aab91
-const triangleStrokeColor = "#83C382";
+const triangleStrokeColor = canvas.getAttribute('strokeColor') || "#83C382";
 
 // Triangle stroke width
-const triangleLineWidth = 3;
+const triangleLineWidth = canvas.getAttribute('triangleLineWidth') || 3;
 
 // Opaque fill in triangle to match the page background
-const triangleFill = "#fff";
+const triangleFill = canvas.getAttribute('backgroundColor') || "#fff";
 
 // Minimum angle we want any of the triangles to have
 const minAngle = 35;
@@ -45,18 +45,18 @@ const minAngle = 35;
 
 // Eg. each column/row will be 75px wide & tall
 let gridCellSize;
-const largeScreenGridCellSize = 75;
+const largeScreenGridCellSize = canvas.getAttribute('largeScreenGridCellSize') || 75;
 const mobileGridCellSize = canvas.getAttribute('mobileGridCellSize') || 55;
 
 // How large a radius to detect mouse movements
 let movementRadius;
-const largeScreenMovementRadius = 30;
-const mobileMovementRadius = 23; // ~44px diameter
+const largeScreenMovementRadius = canvas.getAttribute('largeScreenMovementRadius') || 30;
+const mobileMovementRadius = canvas.getAttribute('mobileMovementRadius') || 23; // ~44px diameter
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
 // Recommended: Trying between ~10 and ~100
-const relativeSpeed = 13;
+const relativeSpeed = canvas.getAttribute('relativeSpeed') || 13;
 
 // Original friction calculation
 // The smaller the final number, the slower they'll fly away
@@ -71,7 +71,7 @@ const friction = canvas.getAttribute('friction') || 0.84;
 const dotDivider = canvas.getAttribute('dotDivider') || 600;
 
 // Dot color
-const dotFill = "#83C382";
+const dotFill = canvas.getAttribute('strokeColor') || "#83C382";
 
 // Dot line 'width'
 // We're making small lines with rounded corners and borders, so this really just
