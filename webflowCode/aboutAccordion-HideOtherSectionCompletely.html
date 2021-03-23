@@ -1,0 +1,27 @@
+<script>
+  $(document).ready(function() {
+    // Bios and News Tab Interactions
+    $(".bio-more---js").on("click", (e) => {
+      // Show this section
+      const $this = $(e.target);
+      $this.siblings(".bio-less---js").show();
+      $this.hide();
+      $this.parent(".more-less-container---js").siblings(".bio-text-container---js").slideDown();
+      // Hide the other section completely
+      const $bioContainerSibling = $this.parents(".bio-container").siblings(".bio-container");
+      $bioContainerSibling.find(".bio-less---js").hide();
+      $bioContainerSibling.find(".bio-more---js").show();
+      $bioContainerSibling.slideUp();
+    })
+    $(".bio-less---js").on("click", (e) => {
+      // Hide this section's details
+      const $this = $(e.target);
+      $this.siblings(".bio-more---js").show();
+      $this.hide();
+      $this.parent(".more-less-container---js").siblings(".bio-text-container---js").slideUp();
+      // Show the other section header
+      const $bioContainerSibling = $this.parents(".bio-container").siblings(".bio-container");
+      $bioContainerSibling.slideDown();
+    })
+  });
+</script>
