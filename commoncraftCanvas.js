@@ -51,11 +51,11 @@ const mobileGridCellSize = canvas.getAttribute('mobileGridSize') || 50;
 // How large a radius to detect mouse movements
 let movementRadius;
 const largeScreenMovementRadius = 30;
-const mobileMovementRadius = 22; // 44px diameter
+const mobileMovementRadius = 25; // ~44px diameter
 
 // How quickly the objects should move away from the mouse
 // Smaller numbers move faster
-const relativeSpeed = 15;
+const relativeSpeed = 13;
 
 // Original friction calculation
 // const friction = Math.random()*0.05 + 0.94;
@@ -79,7 +79,7 @@ const dotFill = "#83C382";
 // We're making small lines with rounded corners and borders, so this really just
 // controls how large the dots look on the screen
 // This doesn't have to be an integer (e.g. can be 1.5)
-const dotLineWidth = canvas.getAttribute('dotLineWidth') || 2;
+const dotLineWidth = canvas.getAttribute('dotLineWidth') || 1;
 
 // Actual window widths and height, but eventually scaled for the device pixel ratio
 let windowWidth;
@@ -253,12 +253,15 @@ function Dot(x, y) {
 
     // New method: Drawing a single-point "line" to make circles
     // More performant than drawing arcs
-    c.moveTo(this.x, this.y);
-    c.lineTo(this.x, this.y);
-    c.stroke();
+    // c.moveTo(this.x, this.y);
+    // c.lineTo(this.x, this.y);
+    // c.stroke();
 
-    // Old method: Draw rectangles, but can't control dot size well
+    // Old method: Draw rectangles, but can't control dot size as well
     // c.fillRect(this.x, this.y, 2, 2);
+
+    // Using strokeRect instead of fillRect lets us control the size a bit better
+    c.strokeRect(this.x, this.y, 1, 1);
     c.closePath();
 
     const a = this.x - mouse.x;
@@ -320,8 +323,8 @@ function initScene() {
       // const minY = j * (wh/gridRows);
       // const maxY = (j + 1) * (wh/gridRows);
 
-      // Randomize the position somewhere near the center of the grid square
-      const reducedRandomness = gridCellSize/6;
+      // Randomize the position somewhere *near* the center of the grid square
+      const reducedRandomness = gridCellSize / 5;
       const minX = (i * (ww/gridColumns)) + reducedRandomness;
       const maxX = ((i + 1) * (ww/gridColumns)) - reducedRandomness;
       const minY = (j * (wh/gridRows)) + reducedRandomness;
@@ -360,7 +363,8 @@ function render() {
   c.fillStyle = dotFill;
 
   c.lineWidth = dotLineWidth;
-  c.lineCap = 'round';
+  // Rounded corners on 'dot' rectangles
+  c.lineJoin = 'bevel';
 
   // Drawing dots first puts them 'below' the triangles
   for (let j = 0; j < dotsArray.length; j++) {
@@ -370,7 +374,9 @@ function render() {
   c.strokeStyle = triangleStrokeColor;
   c.lineWidth = triangleLineWidth;
   c.fillStyle = triangleFill;
+  // Combo of both cap and join to make these look good, esp on mobile
   c.lineCap = 'square';
+  c.lineJoin = 'miter';
 
   for (let i = 0; i < trianglesArray.length; i++) {
     trianglesArray[i].render();
