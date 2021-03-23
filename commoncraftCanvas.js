@@ -79,7 +79,8 @@ const dotFill = "#83C382";
 // We're making small lines with rounded corners and borders, so this really just
 // controls how large the dots look on the screen
 // This doesn't have to be an integer (e.g. can be 1.5)
-const dotLineWidth = canvas.getAttribute('dotLineWidth') || .5;
+let dotLineWidth;
+const largeScreenDotLineWidth = parseFloat(canvas.getAttribute('dotLineWidth')) || 1;
 
 // Actual window widths and height, but eventually scaled for the device pixel ratio
 let windowWidth;
@@ -261,7 +262,7 @@ function Dot(x, y) {
     // c.fillRect(this.x, this.y, 2, 2);
 
     // Using strokeRect instead of fillRect lets us control the size a bit better
-    c.strokeRect(this.x, this.y, 1, 1);
+    c.strokeRect(this.x, this.y, .75, .75);
     c.closePath();
 
     const a = this.x - mouse.x;
@@ -297,10 +298,12 @@ function initScene() {
     triangleLength = mobileTriangleLength;
     gridCellSize = mobileGridCellSize;
     movementRadius = mobileMovementRadius;
+    dotLineWidth = largeScreenDotLineWidth / 2;
   } else {
     triangleLength = largeScreenTriangleLength;
     gridCellSize = largeScreenGridCellSize;
     movementRadius = largeScreenMovementRadius;
+    dotLineWidth = largeScreenDotLineWidth;
   }
 
   // Draw triangles on a grid
