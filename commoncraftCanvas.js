@@ -27,7 +27,7 @@ const initializeApp = () => {
   // Max length of each triangle's sides
   let triangleSegmentLength;
   const largeScreenTriangleSegmentLength = canvas.getAttribute('largeScreenTriangleSegmentLength') || 9;
-  const mobileTriangleSegmentLength = canvas.getAttribute('mobileTriangleSegmentLength') || 6;
+  const mobileTriangleSegmentLength = canvas.getAttribute('mobileTriangleSegmentLength') || 4;
 
   // Triangle border color
   // #9aab91
@@ -48,7 +48,7 @@ const initializeApp = () => {
   // Eg. each column/row will be 75px wide & tall
   let gridCellSize;
   const largeScreenGridCellSize = canvas.getAttribute('largeScreenGridCellSize') || 75;
-  const mobileGridCellSize = canvas.getAttribute('mobileGridCellSize') || 55;
+  const mobileGridCellSize = canvas.getAttribute('mobileGridCellSize') || 40;
 
   // How large a radius to detect mouse movements
   let movementRadius;
@@ -58,7 +58,7 @@ const initializeApp = () => {
   // How quickly the objects should move away from the mouse
   // Smaller numbers move faster
   // Recommended: Trying between ~10 and ~100
-  const relativeSpeed = canvas.getAttribute('relativeSpeed') || 13;
+  const relativeSpeed = canvas.getAttribute('relativeSpeed') || 11;
 
   // Original friction calculation
   // The smaller the final number, the slower they'll fly away
@@ -70,7 +70,7 @@ const initializeApp = () => {
 
   // Dividing the screen area by 300 results in ~4000 dots for a 1400x900 window
   // Higher numbers mean fewer dots
-  const dotDivider = canvas.getAttribute('dotDivider') || 600;
+  const dotDivider = canvas.getAttribute('dotDivider') || 200;
 
   // Dot color
   const dotFill = canvas.getAttribute('strokeColor') || "#83C382";
@@ -123,7 +123,9 @@ const initializeApp = () => {
 
   // Total number of dots on the page
   const calculateDots = (ww, wh) => {
-    return (ww * wh) / dotDivider;
+    const dotsTotal = (ww * wh) / dotDivider;
+    // console.log(dotsTotal);
+    return dotsTotal;
   };
 
   function getRandomInt(min, max) {
