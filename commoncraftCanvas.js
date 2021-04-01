@@ -69,8 +69,8 @@ const initializeApp = () => {
   /* ------------------------------------*/
 
   // Dividing the screen area by 300 results in ~4000 dots for a 1400x900 window
-  // Higher numbers mean fewer dots
-  const dotDivider = canvas.getAttribute('dotDivider') || 200;
+  // Higher numbers mean fewer dots...test
+  const dotDivider = canvas.getAttribute('dotDivider') || 100;
 
   // Dot color
   const dotFill = canvas.getAttribute('strokeColor') || "#83C382";
